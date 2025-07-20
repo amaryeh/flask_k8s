@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: random-range-config
+data:
+  MIN_VALUE: "10"
+  MAX_VALUE: "500"
+  APP_NAME: "FlaskK8s"
+  ENVIRONMENT: "production"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: flask-secret
+type: Opaque
+stringData:
+  SECRET_TOKEN: "s3cr3tValue123"

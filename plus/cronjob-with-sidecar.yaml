@@ -1,0 +1,43 @@
+# cronjob-sidecar.yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: date-logger
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          volumes:
+            - name: log-volume
+              persistentVolumeClaim:
+                claimName: shared-logs-pvc
+          containers:
+            - name: date-writer
+              image: busybox
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  mkdir -p /mnt/logs/archive && \
+                  date >> /mnt/logs/date.log && \
+                  echo "Main container done"
+              volumeMounts:
+                - name: log-volume
+                  mountPath: /mnt/logs
+
+            - name: log-sidecar
+              image: busybox
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  sleep 3 && \
+                  [ -f /mnt/logs/date.log ] && \
+                  cp /mnt/logs/date.log /mnt/logs/archive/date-$(date +%s).log || \
+                  echo "No date.log found" && \
+                  echo "Sidecar done"
+              volumeMounts:
+                - name: log-volume
+                  mountPath: /mnt/logs
+

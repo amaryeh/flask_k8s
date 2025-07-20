@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: hpa-monitor
+spec:
+  schedule: "*/15 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: monitor
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  kubectl top pods -l app=flask-random >> /mnt/metrics/hpa.log
+              volumeMounts:
+                - name: metrics-volume
+                  mountPath: /mnt/metrics
+          volumes:
+            - name: metrics-volume
+              persistentVolumeClaim:
+                claimName: metrics-pvc
+

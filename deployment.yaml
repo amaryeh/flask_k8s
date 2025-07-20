@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-random-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-random
+  template:
+    metadata:
+      labels:
+        app: flask-random
+    spec:
+      containers:
+      - name: flask-random
+        image: robolion1200/my_random_flask:1  # <-- Replace with your image
+        ports:
+        - containerPort: 5000
+        livenessProbe:
+          httpGet:
+            path: /random
+            port: 5000
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /random
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          failureThreshold: 3
+        resources:
+          requests:
+            cpu: "100m"
+          limits:
+            cpu: "250m"
+        envFrom:
+          - configMapRef:
+              name: random-range-config
+          - secretRef:
+              name: flask-secret
+

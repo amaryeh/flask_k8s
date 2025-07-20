@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ab-benchmark
+spec:
+  containers:
+  - name: ab
+    image: devth/alpine-bench
+    command: ["ab"]
+    args: ["-n", "50000", "-c", "50", "http://flask-random-service/random"]
+  restartPolicy: Never
+
