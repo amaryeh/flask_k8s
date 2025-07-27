@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: hpa-monitor
 spec:
-  schedule: "*/15 * * * *"
+  schedule: "*/5 * * * *"
   jobTemplate:
     spec:
       template:
