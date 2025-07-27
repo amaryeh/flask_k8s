@@ -2,7 +2,7 @@
 
 This project demonstrates deploying a simple Flask application to Kubernetes, complete with configuration, secrets, persistent storage, monitoring, and scaling. The application exposes a `/random` endpoint that returns a random number within a configurable range.
 
-## Project Structure
+## Project Structure tree
 
 ```
 .
