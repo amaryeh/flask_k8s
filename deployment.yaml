@@ -28,7 +28,7 @@ spec:
           httpGet:
             path: /random
             port: 5000
-          initialDelaySeconds: 5
+          initialDelaySeconds: 6
           periodSeconds: 5
           failureThreshold: 3
         resources:
