@@ -9,11 +9,16 @@ jobs:
 
     steps:
       # Step 1: Print a message about the event
-      - run: echo "This job was triggered by a ${{ github.event_name }} event."
+      - run: | # Changed to use pipe
+          echo "This job was triggered by a ${{ github.event_name }} event."
 
-      # Step 2: Print the OS and branch details
-      - run: |
-        echo "Running on ${{ runner.os }}. Branch: ${{ github.ref }}."
+      # Step 2: Print the OS and branch details (using environment variables)
+      - name: Print OS and Branch Details
+        env:
+          MY_OS: ${{ runner.os }}
+          MY_BRANCH: ${{ github.ref }}
+        run: |
+          echo "Running on ${{ env.MY_OS }}. Branch: ${{ env.MY_BRANCH }}."
 
       # Step 3: Check out the repository code
       - name: Check out repository code
@@ -21,8 +26,9 @@ jobs:
 
       # Step 4: List files in the repository
       - name: List repository files
-        run: ls ${{ github.workspace }}
+        run: | # Changed to use pipe
+          ls ${{ github.workspace }}
 
       # Step 5: Print the job status
-      - run: |
-        echo "Job status: ${{ job.status }}."
+      - run: | # Changed to use pipe
+          echo "Job status: ${{ job.status }}."
