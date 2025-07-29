@@ -12,7 +12,8 @@ jobs:
       - run: echo "This job was triggered by a ${{ github.event_name }} event."
 
       # Step 2: Print the OS and branch details
-      - run: echo "Running on ${{ runner.os }}. Branch: ${{ github.ref }}."
+      - run: |
+        echo "Running on ${{ runner.os }}. Branch: ${{ github.ref }}."
 
       # Step 3: Check out the repository code
       - name: Check out repository code
@@ -23,4 +24,5 @@ jobs:
         run: ls ${{ github.workspace }}
 
       # Step 5: Print the job status
-      - run: echo "Job status: ${{ job.status }}."
+      - run: |
+        echo "Job status: ${{ job.status }}."
