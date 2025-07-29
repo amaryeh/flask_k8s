@@ -2,6 +2,9 @@ name: GitHub Actions Demo
 
 on:
   push: # Trigger workflow on push events
+    branches:
+      - main
+  workflow_dispatch: # <--- This line indicates the workflow_dispatch trigger is enabled
 
 jobs:
   explore-github-actions:
