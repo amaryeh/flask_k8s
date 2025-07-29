@@ -1,0 +1,26 @@
+name: GitHub Actions Demo
+
+on:
+push: # Trigger workflow on push events
+
+jobs:
+explore-github-actions:
+runs-on: ubuntu-latest # Use the latest Ubuntu runner
+
+steps:
+# Step 1: Print a message about the event
+- run: echo "🎉 This job was triggered by a ${{ github.event_name }} event."
+
+# Step 2: Print the OS and branch details
+- run: echo "🐧 Running on ${{ runner.os }}. Branch: ${{ github.ref }}."
+
+# Step 3: Check out the repository code
+- name: Check out repository code
+uses: actions/checkout@v4
+
+# Step 4: List files in the repository
+- name: List repository files
+run: ls ${{ github.workspace }}
+
+# Step 5: Print the job status
+- run: echo "🍏 Job status: ${{ job.status }}."
